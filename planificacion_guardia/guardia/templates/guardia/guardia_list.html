@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion de Guardias{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <h2 class="py-3 mx-auto">Listado de Guardias <a class="btn btn-primary" href="{% url 'crear_guardia' %}">Crear Guardia</a></h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Lugar</th>
+      <th scope="col">Horario</th>
+      <th scope="col">Solapin del usuario</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for guardia in guardia_list %}
+      <tr>
+      <th scope="row">{{guardia.id}}</th>
+      <td>{{guardia.lugar}}</td>
+      <td>{{guardia.horario}}</td>
+      <td>{{guardia.usuario.usuario.solapin}}</td>
+
+      <td>{% if request.user.groups.first.name == "Planificador" %}
+          <a class="my-auto" href="{% url 'edit_guardia' guardia.id %}">Editar</a> <a class="my-auto text-danger" href="{% url 'delete_guardia' guardia.id %}">Eliminar</a>
+        {% else %}
+          <p class="text-danger">No tiene permiso</p>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock %}
+

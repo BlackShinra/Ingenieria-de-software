@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{%block title %} Confirmar Eliminar Usuario  {%endblock%}
+{%block content%}
+<div class="center">
+	<form method="post" class="my-auto">
+		{% csrf_token %}
+		<h2>Seguro que desea eliminar este usuario?</h2>
+		<p class="form-buttons py-5">
+			<input type="submit" class="btn btn-primary" value="Confirm">
+			<a href="{% url 'gest_usuarios'%}" class="btn btn-outline">Cancel</a>
+		</p>
+	</form>
+</div>
+
+{%endblock content%}

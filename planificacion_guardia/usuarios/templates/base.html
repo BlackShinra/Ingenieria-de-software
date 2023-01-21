@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}
+    
+    {% endblock %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href={% static 'planificacion_guardia/css/bootstrap.css' %}>
+    <link rel="stylesheet" href={% static 'planificacion_guardia/css/main.css' %}>
+    <link rel="stylesheet" href={% static 'planificacion_guardia/css/_bootswatch.scss' %}>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <img id="logo" class="navbar-brand" src={% static 'planificacion_guardia/img/log.png' %}>
+            <p class="navbar-brand my-auto">Planificacion de Guardia</p>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+              {% if request.user.is_staff %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'gest_usuarios' %}">Gestion de Usuarios</a>
+              </li>
+              {% endif %}
+              {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'gest_guardias' %}">Guardias</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'gest_plantillas' %}">Planillas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'gest_horarios' %}">Horarios</a>
+              </li>
+              {% endif %}
+            </ul>
+            {% if request.user.is_authenticated %}
+              <p class="text-white my-auto">
+              Hola {{request.user.username}}, <a class="text-white" href={% url 'account_logout' %}>desea salir?</a>
+            </p>
+            {% else %}
+              <a class="btn btn-secondary my-auto" href="{% url 'account_login' %}"> Iniciar Sesion </a>
+              {% endif %}
+          </div>
+        </div>
+      </nav>
+
+    {% block content %}
+    
+    {% endblock %}
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+    <script src="{% static 'planificacion_guardia/js/bootstrap.js' %}"></script>
+    <script src="{% static 'planificacion_guardia/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion de Usuarios{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <h2 class="py-3 mx-auto">Listado de Usuarios <a class="btn btn-primary" href="{% url 'crear_user' %}">Crear Usuario</a></h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellidos</th>
+      <th scope="col">Nombre_usuario</th>
+      <th scope="col">Solapin</th>
+      <th scope="col">Departamento</th>
+      <th scope="col">Grupo Asignado</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for usuario in usuario_list %}
+      <tr>
+      <th scope="row">{{usuario.id}}</th>
+      <td>{{usuario.nombre}}</td>
+      <td>{{usuario.apellido}}</td>
+      <td>{{ usuario.db_user.username}}</td>
+      <td>{{ usuario.solapin}}</td>
+      <td>{{ usuario.departamento}}</td>
+      <td>{{ usuario.db_user.groups.first }}</td>
+      <td>{% if request.user.is_staff %}
+          <a class="my-auto" href="{% url 'edit_usuario' usuario.id %}">Editar</a> <a class="my-auto text-danger" href="{% url 'user_delete' usuario.id %}">Eliminar</a>
+        {% else %}
+          <p class="text-danger">No tiene permiso</p>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock content %}
+
+

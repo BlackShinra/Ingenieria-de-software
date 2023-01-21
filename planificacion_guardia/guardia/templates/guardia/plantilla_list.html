@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion de Plantillas{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+  <h2 class="py-3">Listado de Plantillas <a class="btn btn-primary"  href="{% url 'crear_plantilla' %}">Crear Plantilla</a></h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Asignatura</th>
+      <th scope="col">Turno</th>
+      <th scope="col">Semana</th>
+      <th scope="col">Local</th>
+      <th scope="col">Guardia</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for plantilla in plantilla_list %}
+      <tr>
+      <th scope="row">{{plantilla.id}}</th>
+      <td>{{plantilla.asignatura}}</td>
+      <td>{{plantilla.turno}}</td>
+      <td>{{plantilla.semana}}</td>
+      <td>{{plantilla.local}}</td>
+      <td>{{plantilla.guardia}}</td>
+      <td>{% if request.user.groups.first.name == 'ProfesorGD' %}
+          <a class="my-auto" href="{% url 'edit_plantilla' plantilla.id %}">Editar</a> <a class="my-auto text-danger" href="{% url 'delete_plantilla' plantilla.id %}">Eliminar</a>
+        {% else %}
+          <p class="text-danger">No tiene permiso</p>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock content %}
+

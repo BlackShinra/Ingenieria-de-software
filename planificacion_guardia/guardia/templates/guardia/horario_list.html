@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestion de Horarios{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <h2 class="py-3 mx-auto">Listado de Horarios <a class="btn btn-primary" href="{% url 'crear_horario' %}">Crear Horario</a></h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Sesion</th>
+      <th scope="col">Paridad</th>
+      <th scope="col">Dia</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for horario in horario_list %}
+      <tr>
+      <th scope="row">{{horario.id}}</th>
+      <td>{{horario.nombre}}</td>
+      <td>{{horario.sesion}}</td>
+      <td>{{horario.paridad}}</td>
+      <td>{{horario.dia}}</td>
+      <td>{% if request.user.groups.first.name == 'Planificador' %}
+          <a class="my-auto" href="{% url 'edit_horario' horario.id %}">Editar</a> <a class="my-auto text-danger" href="{% url 'delete_horario' horario.id %}">Eliminar</a>
+        {% else %}
+          <p class="text-danger">No tiene permiso</p>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock content %}
+
+
+
